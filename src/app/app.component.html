@@ -4,8 +4,7 @@
 
 
 <div>
-  
-  <ngb-timepicker [(ngModel)]="time" [seconds]="seconds"></ngb-timepicker>
+  <ngb-timepicker [(ngModel)]="time" [seconds]="seconds" (ngModelChange)="formatTime()"></ngb-timepicker>
 </div>
 
 
@@ -14,23 +13,21 @@
 </button> -->
 
 <hr />
-<pre>Selected time: {{ time | json }}</pre>
+<pre>Selected time: {{ formattedTime | json}}</pre>
 
 
 
 <hr>
-<table border="">
- 
+<table border="">     
     <tr>
       <th colspan="3">
         T Day
       </th>
       <th colspan="3">T+1 days</th>
       <th colspan="3">T+14 days</th>
-
     </tr>
-  
   <tr>
+    
     <th>Expected date</th>
     <th>Submission date</th>
     <th>Exchange Remarks</th>
@@ -40,11 +37,7 @@
     <th>Expected date</th>
     <th>Submission date</th>
     <th>Exchange Remarks</th>
-  </tr>
-
-  
-  
-  
+  </tr> 
  <tr>
   <td>12-11-23</td>
   <td>15-11-23</td>
@@ -56,20 +49,30 @@
   <td>15-11-23</td>
   <td>20-11-23</td>
  </tr>
-
- 
- 
-
-
-
 </table>
 
 <hr>
-<div>
- 
-<textarea name="" id="" cols="30" rows="10" appWords500></textarea>
-</div>
+
+
+<textarea [(ngModel)]="textInput" (input)="onInputChange($event)" class="w-50"></textarea>
+<p>Word Count: {{ wordCount }}/500</p>
 
 <hr>
-<h2>github</h2>
+
+<form [formGroup]="myForm">
+  <label for="myInput">Input:</label>
+  <textarea id="myInput" formControlName="myInput" class="w-50"></textarea>
+  <div *ngIf="myForm.get('myInput')?.hasError('maxWordsExceeded')">
+    Maximum 500 words allowed.
+  </div>
+</form>
+
+<form [formGroup]="yourForm">
+  <textarea formControlName="yourTextarea"></textarea>
+  
+  <!-- Display an error message if max word count is exceeded -->
+  <div *ngIf="yourForm.get('yourTextarea')?.hasError('maxWordsExceeded')">
+    Maximum word count exceeded (max 100 words).
+  </div>
+</form>
 
